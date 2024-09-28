@@ -13,7 +13,7 @@ const MedicineSchema = new mongoose.Schema(
       trim: true
     },
     time: [{
-      type: Date,
+      type:String,
       required: true   
     }],
     frequency: {

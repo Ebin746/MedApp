@@ -17,7 +17,7 @@ const login = async (req, res) => {
 
         // Create a JWT token
         const token = jwt.sign(
-            { userId: user._id, phoneNumber: user.phoneNumber },
+            { user },
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
         );
@@ -31,7 +31,7 @@ const login = async (req, res) => {
 
 // Sign up controller
 const signUp = async (req, res) => {
-    const { phoneNumber, password, email } = req.body;
+    const { phoneNumber, password} = req.body;
     try {
         const existingUser = await UserSchema.findOne({ phoneNumber });
         if (existingUser) {
@@ -43,11 +43,15 @@ const signUp = async (req, res) => {
 
         const newUser = new UserSchema({
             phoneNumber,
-            password: hashedPassword,
-            email,
+            password: hashedPassword
         });
         await newUser.save();
-        res.status(201).json({ message: "Sign-up successful" });
+        const token = jwt.sign(
+            { newUser },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        );
+        res.status(201).json({token,newUser} );
     } catch (error) {
         console.error("Error during sign-up:", error);
         res.status(500).json({ message: "Internal server error" });
