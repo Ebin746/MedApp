@@ -41,17 +41,17 @@ const signUp = async (req, res) => {
         }
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newUser = new UserSchema({
+        const user = new UserSchema({
             phoneNumber,
             password: hashedPassword
         });
-        await newUser.save();
+        await user.save();
         const token = jwt.sign(
-            { newUser },
+            { user },
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
         );
-        res.status(201).json({token,newUser} );
+        res.status(201).json({token,user} );
     } catch (error) {
         console.error("Error during sign-up:", error);
         res.status(500).json({ message: "Internal server error" });
