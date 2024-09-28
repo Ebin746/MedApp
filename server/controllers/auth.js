@@ -2,7 +2,7 @@ const UserSchema = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// Login controller
+
 const login = async (req, res) => {
     const { phoneNumber, password } = req.body;
     try {
@@ -15,7 +15,7 @@ const login = async (req, res) => {
             return res.status(401).json({ message: "Incorrect password" });
         }
 
-        // Create a JWT token
+        
         const token = jwt.sign(
             { user },
             process.env.JWT_SECRET,
@@ -29,7 +29,6 @@ const login = async (req, res) => {
     }
 };
 
-// Sign up controller
 const signUp = async (req, res) => {
     const { phoneNumber, password} = req.body;
     try {
@@ -54,7 +53,7 @@ const signUp = async (req, res) => {
         res.status(201).json({token,user} );
     } catch (error) {
         console.error("Error during sign-up:", error);
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).json({ message: "Internal server err" });
     }
 };
 
