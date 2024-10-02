@@ -4,25 +4,25 @@ const UserSchema = new mongoose.Schema(
   {
     phoneNumber: {
       type: String,
-      required: true, // Corrected: Make sure spelling is correct
+      required: true,
       unique: true,
       trim: true,
     },
     password: {
       type: String,
-      required: true,  // Ensure this field is properly handled
+      required: true,
     },
     medicines: [
-      { 
-        type: mongoose.Schema.Types.ObjectId, // Mongoose ObjectId reference
-        ref: 'Medicine'  // Refers to the Medicine model
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Medicine'
       }
     ]
   },
   {
-    timestamps: true,  // Automatically manages createdAt and updatedAt fields
+    timestamps: true,
   }
 );
 
-// Export the User model
+
 module.exports = mongoose.model("User", UserSchema);

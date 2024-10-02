@@ -4,30 +4,30 @@ const MedicineSchema = new mongoose.Schema(
   {
     medicineName: {
       type: String,
-      required: true,  
-      trim: true       
+      trim: true
     },
     dosage: {
       type: String,
-      required: true,  
       trim: true
     },
     time: [{
-      type:String,
-      required: true   
+      type: String,
+
     }],
     frequency: {
       type: String,
-      enum: ["Daily", "Weekly", "Monthly"], 
-      required: true
+      enum: ["Daily", "Weekly", "Monthly"],
     },
-    notes: {
-      type: String,   
+    description: {
+      type: String,
       trim: true
     },
+    image:{
+      type:String
+    }
   },
   {
-    timestamps: true  
+    timestamps: true
   }
 );
 

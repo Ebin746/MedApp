@@ -12,40 +12,46 @@ const getUserMedicines = async (req, res) => {
   }
 };
 const addMedicine = async (req, res) => {
-  const { medicineName, dosage, time, frequency, notes } = req.body;
+  const { medicineName,description, image } = req.body;
   console.log(medicineName);
   try {
-    if(!req.params.userid) return res.status(400).json({message:"request not found"});
+    if (!req.params.userid)
+      return res.status(400).json({ message: "request not found" });
     const user = await User.findById(req.params.userid);
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const newMedicine = new Medicine({
       medicineName,
-      dosage,
-      time,
-      frequency,
-      notes
+      description,
+      image,
     });
-    
+   
     const savedMedicine = await newMedicine.save();
     user.medicines.push(savedMedicine._id);
     await user.save();
-    res.status(201).json({ message: "Medicine added", medicine: savedMedicine });
+    res
+      .status(201)
+      .json({ message: "Medicine added", medicine: savedMedicine });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
 };
 
+
+
+
 const updateMedicine = async (req, res) => {
-  const { medicineName, dosage, time, frequency, notes } = req.body;
+  const { medicineName, dosage, time, frequency, description, image } =
+    req.body;
   try {
     const medicine = await Medicine.findByIdAndUpdate(
       req.params.id,
-      { medicineName, dosage, time, frequency, notes },
+      { medicineName, dosage, time, frequency, description, image },
       { new: true }
     );
-    
-    if (!medicine) return res.status(404).json({ message: "Medicine not found" });
+
+    if (!medicine)
+      return res.status(404).json({ message: "Medicine not found" });
 
     res.status(200).json({ message: "Medicine updated", medicine });
   } catch (error) {
@@ -56,8 +62,12 @@ const updateMedicine = async (req, res) => {
 const deleteMedicine = async (req, res) => {
   try {
     const medicine = await Medicine.findByIdAndDelete(req.params.id);
-    if (!medicine) return res.status(404).json({ message: "Medicine not found" });
-   await User.updateOne({_id:req.params.id},{$pull:{medicines:req.params._id}});
+    if (!medicine)
+      return res.status(404).json({ message: "Medicine not found" });
+    await User.updateOne(
+      { _id: req.params.id },
+      { $pull: { medicines: req.params._id } }
+    );
     res.status(200).json({ message: "Medicine deleted" });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
@@ -68,5 +78,5 @@ module.exports = {
   getUserMedicines,
   addMedicine,
   updateMedicine,
-  deleteMedicine
+  deleteMedicine,
 };
