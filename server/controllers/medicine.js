@@ -38,6 +38,24 @@ const addMedicine = async (req, res) => {
 };
 
 
+const eventAddion = async (req, res) => {
+  const { dosage, time, frequency, } =
+    req.body;
+  try {
+    const medicine = await Medicine.findByIdAndUpdate(
+      req.params.id,
+      {  dosage, time, frequency },
+      { new: true }
+    );
+
+    if (!medicine)
+      return res.status(404).json({ message: "Medicine not found" });
+
+    res.status(200).json({ message: "Medicine updated", medicine });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
 
 
 const updateMedicine = async (req, res) => {
@@ -79,4 +97,5 @@ module.exports = {
   addMedicine,
   updateMedicine,
   deleteMedicine,
+  eventAddion
 };
