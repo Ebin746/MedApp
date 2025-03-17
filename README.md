@@ -39,20 +39,20 @@ A REST API for managing user authentication and medicine tracking.
 
 ### Installation
 
-```bash
+bash
 git clone [repo-url]
-cd project/server
+cd server
 npm install # or yarn install
-```
+
 
 ### Environment
 
 Create a `.env` file in the `server/` directory with the following variables:
 
-```env
+env
 PORT=3001
-JWT_SECRET="exampleKeyforToken"
-```
+JWT_SECRET=exampleKeyforToken
+
 
 > [!NOTE]
 >  The `JWT_SECRET` should be a long, random string for security.  Do not use the example provided in a production environment.
@@ -61,9 +61,11 @@ JWT_SECRET="exampleKeyforToken"
 
 ### Commands
 
-```bash
+bash
 npm start # Start development server
-```
+# or
+yarn start
+
 
 ### Testing
 
@@ -71,30 +73,30 @@ The project does not contain explicit testing setup. To implement testing:
 
 1.  Install testing libraries such as Jest and Supertest:
 
-    ```bash
+    bash
     npm install --save-dev jest supertest
     # or
     yarn add --dev jest supertest
-    ```
+    
 2.  Create test files (e.g., `*.test.js`) to test API endpoints and functionality.
 
 ## API Reference
 
-| Method | Endpoint             | Body                                      | Response                                                                         |
-|--------|----------------------|-------------------------------------------|----------------------------------------------------------------------------------|
-| POST   | /auth/signUp         | { phoneNumber: "string", password: "string" }      | 201 Created, { token: "string", user: { _id: "string", phoneNumber: "string" }} |
-| POST   | /auth/login          | { phoneNumber: "string", password: "string" }      | 200 OK, { token: "string", user: { _id: "string", phoneNumber: "string" }}    |
-| GET    | /medicine/:userid    | None                                        | 200 OK, { medicines: [ { _id: "string", medicineName: "string" } ] }          |
-| POST   | /medicine/:userid    | { medicineName: "string", description: "string", image: "string" } | 201 Created, { message: "Medicine added", medicine: { _id: "string", medicineName: "string" } }|
-| PUT    | /medicine/:id/:userid | { medicineName: "string", dosage: "string", time: ["string"], frequency: "string", description: "string", image: "string" } | 200 OK, { message: "Medicine updated", medicine: { _id: "string", medicineName: "string" } } |
-| DELETE | /medicine/:id/:userid | None                                        | 200 OK, { message: "Medicine deleted" }                                        |
-| PUT    | /medicine/event/:id/:userid | { dosage: "string", time: ["string"], frequency: "string" } | 200 OK, { message: "Medicine updated", medicine: { _id: "string"} }                                        |
+| Method | Endpoint             | Body                                                                                             | Response                                                                                                                          |
+|--------|----------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| POST   | /auth/signUp         | `{ phoneNumber: "string", password: "string" }`                                                 | `201 Created`, `{ token: "string", user: { _id: "string", phoneNumber: "string" }}`                                           |
+| POST   | /auth/login          | `{ phoneNumber: "string", password: "string" }`                                                 | `200 OK`, `{ token: "string", user: { _id: "string", phoneNumber: "string" }}`                                              |
+| GET    | /medicine/:userid    | None                                                                                             | `200 OK`, `{ medicines: [ { _id: "string", medicineName: "string" } ] }`                                                        |
+| POST   | /medicine/:userid    | `{ medicineName: "string", description: "string", image: "string" }`                             | `201 Created`, `{ message: "Medicine added", medicine: { _id: "string", medicineName: "string" } }`                              |
+| PUT    | /medicine/:id/:userid | `{ medicineName: "string", dosage: "string", time: ["string"], frequency: "string", description: "string", image: "string" }` | `200 OK`, `{ message: "Medicine updated", medicine: { _id: "string", medicineName: "string" } }`                              |
+| DELETE | /medicine/:id/:userid | None                                                                                             | `200 OK`, `{ message: "Medicine deleted" }`                                                                                     |
+| PUT    | /medicine/event/:id/:userid | `{ dosage: "string", time: ["string"], frequency: "string" }`                                                                                             | `200 OK`, `{ message: "Medicine updated", medicine: { _id: "string"} }`                                                                                     |
 
 ## Deployment
 
 A Dockerfile is not provided. A sample Dockerfile is shown below.
 
-```dockerfile
+dockerfile
 FROM node:18-alpine
 WORKDIR /app
 COPY package*.json ./
@@ -102,14 +104,14 @@ RUN npm install --omit=dev
 COPY . .
 EXPOSE 3001
 CMD ["node", "app.js"]
-```
+
 
 To build and run the Docker container:
 
-```bash
+bash
 docker build -t medtrack-api .
 docker run -p 3001:3001 medtrack-api
-```
+
 
 ## Contributing
 
@@ -125,4 +127,3 @@ docker run -p 3001:3001 medtrack-api
 [bcryptjs-url]: https://www.npmjs.com/package/bcryptjs
 [nodemon-url]: https://www.npmjs.com/package/nodemon
 [dotenv-url]: https://www.npmjs.com/package/dotenv
-```
